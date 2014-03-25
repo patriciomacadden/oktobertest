@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+puts 'usage: ok [-r lib] [-s scope] [-t test] [-v] file ...' if ARGV.empty?
+
+require 'clap'
+require_relative '../lib/oktobertest'
+
+files = Clap.run ARGV,
+  '-r' => ->(file) { require file },
+  '-s' => ->(name) { Oktobertest.run_scope = name },
+  '-t' => ->(name) { Oktobertest.run_test = name },
+  '-v' => -> { puts Oktobertest::VERSION }
+
+Oktobertest.run files if files.any?
