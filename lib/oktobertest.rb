@@ -136,6 +136,8 @@ module Oktobertest
 end
 
 module Kernel
+  private
+
   def scope(name = nil, &block)
     if !Oktobertest.run_scope || Oktobertest.run_scope == name
       Oktobertest::Scope.new(name, &block).run
