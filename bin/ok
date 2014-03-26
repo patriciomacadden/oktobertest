@@ -6,7 +6,7 @@ require 'clap'
 require_relative '../lib/oktobertest'
 
 files = Clap.run ARGV,
-  '-r' => ->(file) { require file },
+  '-r' => ->(file) { require File.expand_path file },
   '-s' => ->(name) { Oktobertest.run_scope = name },
   '-t' => ->(name) { Oktobertest.run_test = name },
   '-v' => -> { puts Oktobertest::VERSION }
