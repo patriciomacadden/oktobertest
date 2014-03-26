@@ -80,7 +80,7 @@ module Oktobertest
     def test(name = nil, &block)
       if !Oktobertest.run_test || Oktobertest.run_test == name
         test = Test.new(name, &block)
-        singleton_methods.each { |m| test.define_singleton_method m, &method(m) }
+        public_methods(false).reject { |m| m == :run }.each { |m| test.define_singleton_method m, &method(m) }
         @setup.each { |b| test.instance_eval &b }
         test.run
         @teardown.each { |b| test.instance_eval &b }
