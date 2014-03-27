@@ -19,7 +19,6 @@ module Oktobertest
       when TestSkipped
         file, line, _ = error.backtrace[1].split(':')
         print "\nskip"
-        print ": #{error.message}" unless error.message == error.class.name
       else
         file, line, _ = error.backtrace[0].split(':')
         print "\nerror: #{error.message}"
@@ -64,8 +63,8 @@ module Oktobertest
       raise TestFailed, message
     end
 
-    def skip(message = nil)
-      raise TestSkipped, message
+    def skip
+      raise TestSkipped
     end
   end
 
