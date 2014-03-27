@@ -7,6 +7,10 @@ module Oktobertest
   def self.run(files)
     files.each { |file| load file }
     puts
+    display_errors
+  end
+
+  def self.display_errors
     errors.each do |error|
       case error
       when TestFailed
