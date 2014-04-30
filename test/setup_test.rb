@@ -8,7 +8,7 @@ scope do
   end
 
   scope do
-    test 'foo is defined too' do
+    test 'foo is defined' do
       assert @foo == 'foo'
     end
   end
@@ -24,7 +24,7 @@ scope do
     @foo = 'bar'
   end
 
-  test 'foo is not changed' do
+  test 'foo has not changed' do
     assert @foo == 'foo'
   end
 end

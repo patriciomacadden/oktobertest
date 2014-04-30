@@ -7,8 +7,8 @@ require_relative '../lib/oktobertest'
 
 files = Clap.run ARGV,
   '-r' => ->(file) { require File.expand_path file },
-  '-s' => ->(name) { Oktobertest.run_scope = name },
-  '-t' => ->(name) { Oktobertest.run_test = name },
+  '-s' => ->(name) { Oktobertest.options[:run_scope] = name },
+  '-t' => ->(name) { Oktobertest.options[:run_test] = name },
   '-v' => -> { puts Oktobertest::VERSION }
 
 Oktobertest.run files if files.any?

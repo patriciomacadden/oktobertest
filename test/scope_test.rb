@@ -4,13 +4,25 @@ scope do
   end
 
   test 'responds to foo' do
+    assert respond_to? :foo
     assert foo == 'foo'
   end
 
   scope do
-    test 'responds to foo too' do
+    test 'responds to foo' do
+      assert respond_to? :foo
       assert foo == 'foo'
     end
+  end
+end
+
+scope do
+  test 'does not respond to foo' do
+    assert !respond_to?(:foo)
+  end
+
+  def foo
+    'foo'
   end
 end
 
@@ -24,13 +36,13 @@ scope do
       @bar = 'bar'
     end
 
-    test 'foo and bar must be defined' do
+    test 'foo and bar are defined' do
       assert @foo == 'foo'
       assert @bar == 'bar'
     end
   end
 
-  test 'foo must be defined and bar wont be' do
+  test 'foo is defined and bar is not' do
     assert @foo == 'foo'
     assert @bar.nil?
   end

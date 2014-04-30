@@ -4,40 +4,30 @@ scope 'assert' do
   end
 
   test 'fails if the value is false' do
-    assert_raises Oktobertest::TestFailed do
-      assert false
-    end
+    assert_raises(Oktobertest::TestFailed) { assert false }
   end
 end
 
 scope 'assert_raises' do
   test 'passes if the block raises the given exception' do
-    assert_raises RuntimeError do
-      raise RuntimeError
-    end
+    assert_raises(RuntimeError) { raise RuntimeError }
   end
 
   test 'fails if the block does not raise the given exception' do
     assert_raises Oktobertest::TestFailed do
-      assert_raises RuntimeError do
-        raise ArgumentError
-      end
+      assert_raises(RuntimeError) { raise ArgumentError }
     end
   end
 end
 
 scope 'flunk' do
   test 'raises Oktobertest::TestFailed exception' do
-    assert_raises Oktobertest::TestFailed do
-      flunk
-    end
+    assert_raises(Oktobertest::TestFailed) { flunk }
   end
 end
 
 scope 'skip' do
   test 'raises Oktobertest::TestSkipped exception' do
-    assert_raises Oktobertest::TestSkipped do
-      skip
-    end
+    assert_raises(Oktobertest::TestSkipped) { skip }
   end
 end

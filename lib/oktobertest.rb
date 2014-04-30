@@ -4,12 +4,6 @@ module Oktobertest
   TestFailed = Class.new StandardError
   TestSkipped = Class.new StandardError
 
-  def self.run(files)
-    files.each { |file| load file }
-    puts
-    display_errors
-  end
-
   def self.display_errors
     errors.each do |error|
       case error
@@ -27,20 +21,18 @@ module Oktobertest
     end
   end
 
-  def self.run_test=(name)
-    @run_test = name
+  def self.errors
+    @errors ||= []
   end
 
-  def self.run_test
-    @run_test
+  def self.options
+    @options ||= {}
   end
 
-  def self.run_scope=(name)
-    @run_scope = name
-  end
-
-  def self.run_scope
-    @run_scope
+  def self.run(files)
+    files.each { |file| load file }
+    puts
+    display_errors
   end
 
   module Assertions
@@ -78,12 +70,16 @@ module Oktobertest
       instance_eval &@block
     end
 
+    def run?
+      !Oktobertest.options[:run_scope] || Oktobertest.options[:run_scope] == @name
+    end
+
     protected
 
     def test(name = nil, &block)
-      if !Oktobertest.run_test || Oktobertest.run_test == name
-        test = Test.new(name, &block)
-        public_methods(false).reject { |m| m == :run }.each { |m| test.define_singleton_method m, &method(m) }
+      test = Test.new name, &block
+      public_methods(false).reject { |m| m == :run || m == :run? }.each { |m| test.define_singleton_method m, &method(m) }
+      if test.run?
         @setup.each { |b| test.instance_eval &b }
         test.run
         @teardown.each { |b| test.instance_eval &b }
@@ -99,13 +95,11 @@ module Oktobertest
     end
 
     def scope(name = nil, &block)
-      if !Oktobertest.run_scope || Oktobertest.run_scope == name
-        scope = Scope.new(name, &block)
-        singleton_methods.each { |m| scope.define_singleton_method m, &method(m) }
-        @setup.each { |b| scope.setup &b }
-        @teardown.each { |b| scope.teardown &b }
-        scope.run
-      end
+      scope = Scope.new(name, &block)
+      singleton_methods.each { |m| scope.define_singleton_method m, &method(m) }
+      @setup.each { |b| scope.setup &b }
+      @teardown.each { |b| scope.teardown &b }
+      scope.run if scope.run?
     end
   end
 
@@ -129,12 +123,10 @@ module Oktobertest
       Oktobertest.errors << error
       print 'E'
     end
-  end
 
-  private
-
-  def self.errors
-    @errors ||= []
+    def run?
+      !Oktobertest.options[:run_test] || Oktobertest.options[:run_test] == @name
+    end
   end
 end
 
@@ -142,8 +134,7 @@ module Kernel
   private
 
   def scope(name = nil, &block)
-    if !Oktobertest.run_scope || Oktobertest.run_scope == name
-      Oktobertest::Scope.new(name, &block).run
-    end
+    scope = Oktobertest::Scope.new name, &block
+    scope.run if scope.run?
   end
 end
