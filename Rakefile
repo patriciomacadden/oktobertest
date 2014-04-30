@@ -1,9 +1,8 @@
 require 'bundler/gem_tasks'
 
-require 'oktobertest'
-
 desc 'Run the tests'
 task :test do
+  require Pathname.new(__FILE__).dirname.join('test/helper')
   Oktobertest.run Dir['test/*_test.rb']
 end
 
