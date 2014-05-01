@@ -14,7 +14,7 @@ and I thought: "It shouldn't be so difficult to make a test library".
 runs its own context.
 * Each `scope` is an instance of `Oktobertest::Scope`. Methods defined in a
 scope are copied into each `test` it contains.
-* Extensible: it's easy to add more assertions.
+* Extensible: it's easy to add more assertions (See [oktobertest-contrib](https://github.com/patriciomacadden/oktobertest-contrib)).
 
 ## Installation
 
@@ -115,6 +115,31 @@ $ ok test/*_test.rb
 ```
 
 Please check the default options by running `ok`.
+
+### Testing Rack applications
+
+Pretty simple:
+
+```ruby
+require 'rack/test'
+
+module Oktobertest
+  class Test
+    include Rack::Test::Methods
+
+    def app
+      Proc.new { |env| [200, {}, ['hello world']] }
+    end
+  end
+end
+
+scope 'rack app' do
+  test 'GET /' do
+    get '/'
+    assert last_response.status == 200
+  end
+end
+```
 
 ## Contributing
 
