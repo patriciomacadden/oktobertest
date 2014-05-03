@@ -8,13 +8,13 @@ module Oktobertest
     errors.each do |error|
       case error
       when TestFailed
-        file, line, _ = error.backtrace[2].split(':')
+        file, line, _ = error.backtrace[2].split ':'
         print "\nerror: #{error.message}"
       when TestSkipped
-        file, line, _ = error.backtrace[1].split(':')
+        file, line, _ = error.backtrace[1].split ':'
         print "\nskip"
       else
-        file, line, _ = error.backtrace[0].split(':')
+        file, line, _ = error.backtrace[0].split ':'
         print "\nerror: #{error.message}"
       end
       print "\nfile: #{file}\nline: #{line}\n"
@@ -95,7 +95,7 @@ module Oktobertest
     end
 
     def scope(name = nil, &block)
-      scope = Scope.new(name, &block)
+      scope = Scope.new name, &block
       singleton_methods.each { |m| scope.define_singleton_method m, &method(m) }
       @setup.each { |b| scope.setup &b }
       @teardown.each { |b| scope.teardown &b }
@@ -114,14 +114,13 @@ module Oktobertest
       instance_eval &@block
       print '.'
     rescue TestFailed => error
-      Oktobertest.errors << error
       print 'F'
     rescue TestSkipped => error
-      Oktobertest.errors << error
       print 'S'
     rescue StandardError => error
-      Oktobertest.errors << error
       print 'E'
+    ensure
+      Oktobertest.errors << error unless error.nil?
     end
 
     def run?
