@@ -1,3 +1,5 @@
+require 'helper'
+
 scope do
   setup do
     @foo = 'foo'

@@ -1,3 +1,5 @@
+require 'helper'
+
 scope 'assert' do
   test 'passes if the value is true' do
     assert true

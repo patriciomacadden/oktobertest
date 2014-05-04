@@ -1,3 +1,5 @@
+require 'optparse'
+
 module Oktobertest
   VERSION = '0.0.1'
 
@@ -5,6 +7,7 @@ module Oktobertest
   TestSkipped = Class.new StandardError
 
   def self.display_errors
+    puts
     errors.each do |error|
       case error
       when TestFailed
@@ -27,12 +30,6 @@ module Oktobertest
 
   def self.options
     @options ||= {}
-  end
-
-  def self.run(files)
-    files.each { |file| load file }
-    puts
-    display_errors
   end
 
   module Assertions
@@ -137,3 +134,10 @@ module Kernel
     scope.run if scope.run?
   end
 end
+
+OptionParser.new do |opts|
+  opts.on('--scope NAME', 'Run the NAME scope(s)') { |name| Oktobertest.options[:run_scope] = name }
+  opts.on('--test NAME', 'Run the NAME test(s)') { |name| Oktobertest.options[:run_test] = name }
+end.parse!
+
+at_exit { Oktobertest.display_errors }

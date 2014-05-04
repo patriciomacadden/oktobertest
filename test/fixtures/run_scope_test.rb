@@ -1,3 +1,5 @@
+require 'oktobertest'
+
 scope 'run this' do
   test 'run this' do
     assert true

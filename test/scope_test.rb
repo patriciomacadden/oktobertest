@@ -1,3 +1,5 @@
+require 'helper'
+
 scope do
   def foo
     'foo'
