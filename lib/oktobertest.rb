@@ -1,4 +1,4 @@
-require 'optparse'
+require 'clap'
 
 module Oktobertest
   VERSION = '0.1.0'
@@ -135,9 +135,8 @@ module Kernel
   end
 end
 
-OptionParser.new do |opts|
-  opts.on('--scope NAME', 'Run the NAME scope(s)') { |name| Oktobertest.options[:run_scope] = name }
-  opts.on('--test NAME', 'Run the NAME test(s)') { |name| Oktobertest.options[:run_test] = name }
-end.parse!
+Clap.run ARGV,
+  '--scope' => ->(name) { Oktobertest.options[:run_scope] = name },
+  '--test' => ->(name) { Oktobertest.options[:run_test] = name }
 
 at_exit { Oktobertest.display_errors }
