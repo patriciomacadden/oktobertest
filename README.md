@@ -92,29 +92,34 @@ module Oktobertest
 end
 ```
 
-### Running the test suite
+### Running a test suite
 
-You can run the test suite using `rake` or the `ok` command.
+You can run a test suite using `rake` or `ruby`.
 
 Using `rake`:
 
 ```ruby
-require 'oktobertest'
+require 'rake/testtask'
 
-task :test do
-  Oktobertest.run Dir['test/*_test.rb']
+Rake::TestTask.new do |t|
+  t.libs << 'test'
+  t.pattern = 'test/*_test.rb'
 end
 
 task default: :test
 ```
 
-Using `ok`:
+Using `ruby`:
 
 ```bash
-$ ok test/*_test.rb
+$ ruby -r oktobertest test/*_test.rb
 ```
 
-Please check the default options by running `ok`.
+When using `ruby` directly, you can specify two options: `--scope` and `--test`.
+
+```bash
+$ ruby -r oktobertest test/*_test.rb --test 'test this'
+```
 
 ### Testing Rack applications
 
