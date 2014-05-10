@@ -26,6 +26,10 @@ scope do
   def foo
     'foo'
   end
+
+  test 'responds to foo' do
+    assert respond_to? :foo
+  end
 end
 
 scope do
