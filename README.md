@@ -115,10 +115,11 @@ Using `ruby`:
 $ ruby -r oktobertest test/*_test.rb
 ```
 
-When using `ruby` directly, you can specify two options: `--scope` and `--test`.
+When using `ruby` directly, you can specify the scope (`SCOPE`) or the test
+(`TEST`) to run:
 
 ```bash
-$ ruby -r oktobertest test/*_test.rb --test 'test this'
+$ TEST='test this' ruby -r oktobertest test/*_test.rb
 ```
 
 ### Testing Rack applications

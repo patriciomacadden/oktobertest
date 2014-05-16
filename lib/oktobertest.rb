@@ -1,5 +1,3 @@
-require 'clap'
-
 module Oktobertest
   VERSION = '0.1.0'
 
@@ -26,10 +24,6 @@ module Oktobertest
 
   def self.errors
     @errors ||= []
-  end
-
-  def self.options
-    @options ||= {}
   end
 
   module Assertions
@@ -68,7 +62,7 @@ module Oktobertest
     end
 
     def run?
-      !Oktobertest.options[:run_scope] || Oktobertest.options[:run_scope] == @name
+      !ENV['SCOPE'] || ENV['SCOPE'] == @name
     end
 
     protected
@@ -121,7 +115,7 @@ module Oktobertest
     end
 
     def run?
-      !Oktobertest.options[:run_test] || Oktobertest.options[:run_test] == @name
+      !ENV['TEST'] || ENV['TEST'] == @name
     end
   end
 end
@@ -134,9 +128,5 @@ module Kernel
     scope.run if scope.run?
   end
 end
-
-Clap.run ARGV,
-  '--scope' => ->(name) { Oktobertest.options[:run_scope] = name },
-  '--test' => ->(name) { Oktobertest.options[:run_test] = name }
 
 at_exit { Oktobertest.display_errors }

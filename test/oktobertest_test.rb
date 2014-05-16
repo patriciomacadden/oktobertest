@@ -45,13 +45,13 @@ EOS
 
   test 'run only one scope' do
     expected = "..\n"
-    output = %x(ruby test/fixtures/run_scope_test.rb --scope 'run this')
+    output = %x(SCOPE='run this' ruby test/fixtures/run_scope_test.rb)
     assert expected == output
   end
 
   test 'run only one test' do
     expected = ".\n"
-    output = %x(ruby test/fixtures/run_test_test.rb --test 'run this')
+    output = %x(TEST='run this' ruby test/fixtures/run_test_test.rb)
     assert expected == output
   end
 end
