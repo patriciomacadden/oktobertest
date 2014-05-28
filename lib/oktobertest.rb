@@ -7,17 +7,8 @@ module Oktobertest
   def self.display_errors
     puts
     errors.each do |error|
-      case error
-      when TestFailed
-        file, line, _ = error.backtrace[2].split ':'
-        print "\nerror: #{error.message}"
-      when TestSkipped
-        file, line, _ = error.backtrace[1].split ':'
-        print "\nskip"
-      else
-        file, line, _ = error.backtrace[0].split ':'
-        print "\nerror: #{error.message}"
-      end
+      file, line, _ = error.backtrace.detect { |l| !l.match __FILE__ }.split ':'
+      print error.kind_of?(TestSkipped) ? "\nskip" : "\nerror: #{error.message}"
       print "\nfile: #{file}\nline: #{line}\n"
     end
   end
