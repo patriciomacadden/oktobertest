@@ -53,7 +53,7 @@ module Oktobertest
     end
 
     def run?
-      !ENV['SCOPE'] || ENV['SCOPE'] == @name
+      !ENV['S'] || ENV['S'] == @name
     end
 
     protected
@@ -106,7 +106,7 @@ module Oktobertest
     end
 
     def run?
-      !ENV['TEST'] || ENV['TEST'] == @name
+      !ENV['T'] || ENV['T'] == @name
     end
   end
 end
