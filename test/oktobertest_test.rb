@@ -1,46 +1,74 @@
 require 'helper'
 
 scope do
-  test 'successful run' do
-    expected = ".\n"
-    output = %x(ruby -I lib:test test/fixtures/successful_test.rb)
-    assert expected == output
+  scope 'successful run' do
+    test 'output' do
+      expected = ".\n"
+      output = %x(ruby -I lib:test test/fixtures/successful_test.rb)
+      assert expected == output
+    end
+
+    test 'exit status == 0' do
+      %x(ruby -I lib:test test/fixtures/successful_test.rb)
+      assert 0 == $?.exitstatus
+    end
   end
 
-  test 'errored run' do
-    expected = <<EOS
+  scope 'errored run' do
+    test 'output' do
+      expected = <<EOS
 E
 
 error: RuntimeError
 file: test/fixtures/error_test.rb
 line: 4
 EOS
-    output = %x(ruby -I lib:test test/fixtures/error_test.rb)
-    assert expected == output
+      output = %x(ruby -I lib:test test/fixtures/error_test.rb)
+      assert expected == output
+    end
+
+    test 'exit status == 1' do
+      %x(ruby -I lib:test test/fixtures/error_test.rb)
+      assert 1 == $?.exitstatus
+    end
   end
 
-  test 'failed run' do
-    expected = <<EOS
+  scope 'failed run' do
+    test 'output' do
+      expected = <<EOS
 F
 
 error: condition is not true: false
 file: test/fixtures/failing_test.rb
 line: 4
 EOS
-    output = %x(ruby -I lib:test test/fixtures/failing_test.rb)
-    assert expected == output
+      output = %x(ruby -I lib:test test/fixtures/failing_test.rb)
+      assert expected == output
+    end
+
+    test 'exit status == 1' do
+      %x(ruby -I lib:test test/fixtures/failing_test.rb)
+      assert 1 == $?.exitstatus
+    end
   end
 
-  test 'run with skipped tests' do
-    expected = <<EOS
+  scope 'run with skipped tests' do
+    test 'output' do
+      expected = <<EOS
 S
 
 skip
 file: test/fixtures/skipped_test.rb
 line: 4
 EOS
-    output = %x(ruby -I lib:test test/fixtures/skipped_test.rb)
-    assert expected == output
+      output = %x(ruby -I lib:test test/fixtures/skipped_test.rb)
+      assert expected == output
+    end
+
+    test 'exit status == 0' do
+      %x(ruby -I lib:test test/fixtures/skipped_test.rb)
+      assert 0 == $?.exitstatus
+    end
   end
 
   test 'run only one scope' do

@@ -120,4 +120,7 @@ module Kernel
   end
 end
 
-at_exit { Oktobertest.display_errors }
+at_exit do
+  Oktobertest.display_errors
+  exit Oktobertest.errors.any? { |error| !error.kind_of?(Oktobertest::TestSkipped) } ? 1 : 0
+end
