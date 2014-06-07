@@ -40,7 +40,7 @@ scope do
     @bar = 'bar'
   end
 
-  test 'both foo and bar are defined, but baz is not' do
+  test 'foo and bar are defined, but baz is not' do
     assert @foo == 'foo'
     assert @bar == 'bar'
     assert @baz.nil?
@@ -50,7 +50,7 @@ scope do
     @baz = 'baz'
   end
 
-  test 'both foo, bar and baz are defined' do
+  test 'foo, bar and baz are defined' do
     assert @foo == 'foo'
     assert @bar == 'bar'
     assert @baz == 'baz'

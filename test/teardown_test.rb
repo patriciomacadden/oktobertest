@@ -11,5 +11,10 @@ scope do
 
   teardown do
     assert @foo == 'bar'
+    @foo == 'baz'
+  end
+
+  teardown do
+    assert @foo == 'baz'
   end
 end
