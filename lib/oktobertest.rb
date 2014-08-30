@@ -1,5 +1,5 @@
 module Oktobertest
-  VERSION = '0.4.0'
+  VERSION = '0.5.0'
 
   TestFailed = Class.new StandardError
   TestSkipped = Class.new StandardError
@@ -7,9 +7,9 @@ module Oktobertest
   def self.display_errors
     puts
     errors.each do |error|
-      file, line, _ = error.backtrace.detect { |l| !l.match __FILE__ }.split ':'
+      backtrace_location = error.backtrace_locations.detect { |l| l.base_label == '<main>' }
       print error.kind_of?(TestSkipped) ? "\nskip" : "\nerror: #{error.message}"
-      print "\nfile: #{file}\nline: #{line}\n"
+      print "\nfile: #{backtrace_location.path}\nline: #{backtrace_location.lineno}\n"
     end
   end
 
