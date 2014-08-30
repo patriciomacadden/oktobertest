@@ -17,6 +17,10 @@ module Oktobertest
     @errors ||= []
   end
 
+  def self.exit_status
+    errors.any? { |error| !error.kind_of?(TestSkipped) } ? 1 : 0
+  end
+
   module Assertions
     def assert(value, message = nil)
       message ||= "condition is not true: #{value.inspect}"
@@ -122,5 +126,5 @@ end
 
 at_exit do
   Oktobertest.display_errors
-  exit Oktobertest.errors.any? { |error| !error.kind_of?(Oktobertest::TestSkipped) } ? 1 : 0
+  exit Oktobertest.exit_status
 end
