@@ -1,5 +1,5 @@
 module Oktobertest
-  VERSION = '0.5.1'
+  VERSION = '0.5.2'
 
   TestFailed = Class.new StandardError
   TestSkipped = Class.new StandardError
@@ -93,7 +93,7 @@ module Oktobertest
     include Assertions
 
     def initialize(name = nil, &block)
-      @name, @block = name, block
+      @name, @block = name.to_s, block
     end
 
     def run

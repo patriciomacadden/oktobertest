@@ -88,4 +88,10 @@ EOS
     output = %x(T='run this' ruby -I lib:test test/fixtures/run_test_test.rb)
     assert expected == output
   end
+
+  test 'run only one test with a class name as name' do
+    expected = ".\n"
+    output = %x(T=Run::This ruby -I lib:test test/fixtures/run_test_test.rb)
+    assert expected == output
+  end
 end
