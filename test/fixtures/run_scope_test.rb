@@ -19,3 +19,18 @@ scope 'and not this' do
     assert false
   end
 end
+
+module Run
+  class This
+  end
+end
+
+scope Run::This do
+  test 'run this' do
+    assert true
+  end
+
+  test 'and this' do
+    assert true
+  end
+end

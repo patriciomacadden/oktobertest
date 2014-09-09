@@ -1,5 +1,5 @@
 module Oktobertest
-  VERSION = '0.5.0'
+  VERSION = '0.5.1'
 
   TestFailed = Class.new StandardError
   TestSkipped = Class.new StandardError
@@ -48,7 +48,7 @@ module Oktobertest
 
   class Scope
     def initialize(name = nil, &block)
-      @name, @block = name, block
+      @name, @block = name.to_s, block
       @setup, @teardown = [], []
     end
 

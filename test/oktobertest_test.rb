@@ -77,6 +77,12 @@ EOS
     assert expected == output
   end
 
+  test 'run only one scope with a class name as name' do
+    expected = "..\n"
+    output = %x(S=Run::This ruby -I lib:test test/fixtures/run_scope_test.rb)
+    assert expected == output
+  end
+
   test 'run only one test' do
     expected = ".\n"
     output = %x(T='run this' ruby -I lib:test test/fixtures/run_test_test.rb)
